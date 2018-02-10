@@ -1,5 +1,5 @@
 
-#!/usr/bin/ruby
+# !/usr/bin/ruby
 ###############################################################
 #
 # CSCI 305 - Ruby Programming Lab
@@ -12,6 +12,12 @@
 $bigrams = Hash.new # The Bigram data structure
 $name = 'Amelia Getty'
 
+def cleanup_title(str)
+  regex = /%.{41}.*<SEP>/
+  title = str.gsub!(regex, "")
+  return title
+end
+
 # function to process each line of a file and extract the song titles
 def process_file(file_name)
   puts 'Processing File.... '
@@ -21,13 +27,16 @@ def process_file(file_name)
       file = File.open(file_name)
       unless file.eof?
         file.each_line do |line|
-          # do something for each line (if using windows)
+          title = cleanup_title line
+          puts title
+          puts "please help me"
         end
       end
       file.close
     else
       IO.foreach(file_name, encoding: 'utf-8') do |line|
-        # do something for each line (if using macos or linux)
+        title = cleanup_title line
+        puts title
       end
     end
 
@@ -39,7 +48,7 @@ def process_file(file_name)
 end
 
 # Executes the program
-def main_loop()
+def main_loop
   puts "CSCI 305 Ruby Lab submitted by #{$name}"
 
   if ARGV.empty?
