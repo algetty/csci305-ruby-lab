@@ -13,9 +13,10 @@ $bigrams = Hash.new # The Bigram data structure
 $name = 'Amelia Getty'
 
 def cleanup_title(str)
-  regex = /%.{41}.*<SEP>/
-  title = str.gsub!(regex, "")
-  return title
+  extract = /%.{41}.*<SEP>/
+  extracted = str.gsub(extract, '')
+  superfluous = /(feat.)?[_\-`+=\(\[\{\\\/:\"\*].*/
+  extracted.gsub(superfluous, '')
 end
 
 # function to process each line of a file and extract the song titles
@@ -29,7 +30,6 @@ def process_file(file_name)
         file.each_line do |line|
           title = cleanup_title line
           puts title
-          puts "please help me"
         end
       end
       file.close
