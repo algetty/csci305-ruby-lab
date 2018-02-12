@@ -24,8 +24,28 @@ def cleanup_title(str)
     title = ''
   else
     lower_title = title.downcase
+    count_bigrams lower_title
   end
   lower_title
+end
+
+def count_bigrams(str)
+  song = str.split(/\s/)
+  i = 0
+  until i == song.length - 1
+    word = song[i]
+    i += 1
+    word2 = song[i]
+    if $bigrams.key?(word)
+      if $bigrams[word].key?(word2)
+        $bigrams[word][word2] += 1
+      else
+        $bigrams[word][word2] = 1
+      end
+    else
+      $bigrams[word] = {word2 => 1}
+    end
+  end
 end
 
 # function to process each line of a file and extract the song titles
