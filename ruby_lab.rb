@@ -46,6 +46,23 @@ def count_bigrams(str)
       $bigrams[word] = {word2 => 1}
     end
   end
+
+end
+
+def mcw(word)
+  if $bigrams.key?(word)
+    most_common = 'most common word'
+    highest_value = 0
+    $bigrams[word].each do |key, value|
+      if value >= highest_value
+        highest_value = value
+        most_common = key
+      end
+    end
+    most_common
+  else
+    none = 'none'
+  end
 end
 
 # function to process each line of a file and extract the song titles
@@ -58,17 +75,17 @@ def process_file(file_name)
       unless file.eof?
         file.each_line do |line|
           title = cleanup_title line
-          # puts title
         end
       end
       puts $bigrams
+      puts mcw('love')
       file.close
     else
       IO.foreach(file_name, encoding: 'utf-8') do |line|
         title = cleanup_title line
-        # puts title
       end
       puts $bigrams
+      puts mcw('love')
     end
 
     puts "Finished. Bigram model built.\n"
