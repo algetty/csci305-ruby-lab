@@ -16,7 +16,16 @@ def cleanup_title(str)
   extract = /%.{41}.*<SEP>/
   extracted = str.gsub(extract, '')
   superfluous = /(feat.)?[_\-`+=\(\[\{\\\/:\"\*].*/
-  extracted.gsub(superfluous, '')
+  unsuperfluous = extracted.gsub(superfluous, '')
+  punctuation = /[\?¿!¡\.;&@%#|]/
+  title = unsuperfluous.gsub(punctuation, '')
+  foreign = /[^\x00-\x7F]/
+  if foreign =~ title
+    title = ''
+  else
+    lower_title = title.downcase
+  end
+  lower_title
 end
 
 # function to process each line of a file and extract the song titles
@@ -29,15 +38,17 @@ def process_file(file_name)
       unless file.eof?
         file.each_line do |line|
           title = cleanup_title line
-          puts title
+          # puts title
         end
       end
+      puts $bigrams
       file.close
     else
       IO.foreach(file_name, encoding: 'utf-8') do |line|
         title = cleanup_title line
-        puts title
+        # puts title
       end
+      puts $bigrams
     end
 
     puts "Finished. Bigram model built.\n"
