@@ -13,7 +13,7 @@ $bigrams = Hash.new # The Bigram data structure
 $name = 'Amelia Getty'
 
 def cleanup_title(str)
-  extract = /%.{41}.*<SEP>/
+  extract = /.*<SEP>.*<SEP>.*<SEP>/
   extracted = str.gsub(extract, '')
   superfluous = /(feat.)?[_\-`+=\(\[\{\\\/:\"\*].*/
   unsuperfluous = extracted.gsub(superfluous, '')
@@ -25,8 +25,8 @@ def cleanup_title(str)
   else
     title = title.downcase
     count_bigrams title
+    title
   end
-  title
 end
 
 def count_bigrams(str)
@@ -88,17 +88,20 @@ def process_file(file_name)
           title = cleanup_title line
         end
       end
-      puts $bigrams
+      # puts $bigrams['computer']
+      # puts $bigrams
       # puts mcw('love')
-      create_title('love')
+      # create_title('love')
       file.close
     else
       IO.foreach(file_name, encoding: 'utf-8') do |line|
         title = cleanup_title line
       end
-      puts $bigrams
+      # puts $bigrams['computer']
+      # puts $bigrams
+      #
       # puts mcw('love')
-      create_title('love')
+      # create_title('love')
     end
 
     puts "Finished. Bigram model built.\n"
