@@ -60,9 +60,19 @@ def mcw(word)
         most_common = key
       end
     end
-    most_common
+  most_common
   else
     none = 'none'
+  end
+end
+
+def create_title(word)
+  i = 0
+  print word + " "
+  until i == 19
+    word = mcw(word)
+    print word + " "
+    i += 1
   end
 end
 
@@ -79,14 +89,16 @@ def process_file(file_name)
         end
       end
       puts $bigrams
-      puts mcw('love')
+      # puts mcw('love')
+      create_title('love')
       file.close
     else
       IO.foreach(file_name, encoding: 'utf-8') do |line|
         title = cleanup_title line
       end
       puts $bigrams
-      puts mcw('love')
+      # puts mcw('love')
+      create_title('love')
     end
 
     puts "Finished. Bigram model built.\n"
